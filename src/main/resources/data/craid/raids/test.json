@@ -1,82 +1,73 @@
 {
-  "name":"test",
-  "authors":[
+  "name": "test",
+  "type": "default",
+  "authors": [
     "ht"
   ],
-  "tags":[
+  "tags": [
     "test"
   ],
-  "pre_tick":200,
-  "win_tick":400,
-  "loss_tick":100,
-  "bar_color":"green",
-  "sounds":{
-    "pre_sound":"entity.creeper.hurt",
-    "wave_sound":"entity.creeper.hurt",
-    "win_sound":"entity.creeper.hurt",
-    "loss_sound":"entity.creeper.hurt"
+  "pre_tick": 200,
+  "win_tick": 400,
+  "loss_tick": 100,
+  "bar_color": "green",
+  "sounds": {
+    "pre_sound": "entity.creeper.hurt",
+    "wave_sound": "entity.creeper.hurt",
+    "win_sound": "entity.creeper.hurt",
+    "loss_sound": "entity.creeper.hurt"
   },
-  "placement":{
-    "outer":{
-      "min":10,
-      "max":20
+  "placement": {
+    "outer": {
+      "min": 10,
+      "max": 20
     }
   },
-  "waves":[
+  "waves": [{
+    "spawns": [{
+      "entity_type": "zombie",
+      "spawn_tick": 20,
+      "spawn_amount": {
+        "count": 1
+      },
+      "placement": {
+        "center": {
+          "radius": 5,
+          "ground": true
+        }
+      },
+      "nbt": "{ArmorItems:[{id:\"minecraft:diamond_boots\",Count:1b},{id:\"minecraft:diamond_leggings\",Count:1b},{id:\"minecraft:diamond_chestplate\",Count:1b},{id:\"minecraft:diamond_helmet\",Count:1b}],CustomName:'{\"text\":\"快乐的小僵尸\"}', CustomNameVisible: 1}"
+    }],
+    "duration": 1000
+  },
     {
-      "spawns":[
-        {
-          "entity_type":"zombie",
-          "spawn_tick":10,
-          "spawn_amount":{
-            "count":5
-          },
-          "placement":{
-            "center":{
-              "radius":5,
-              "ground":true
-            }
-          }
+      "spawns": [{
+        "entity_type": "skeleton",
+        "spawn_tick": 10,
+        "spawn_amount": {
+          "count": 5
         },
+        "placement": {
+          "center": {
+            "radius": 5,
+            "ground": true
+          }
+        }
+      },
         {
-          "entity_type":"creeper",
-          "spawn_tick":500,
-          "spawn_amount":{
-            "count":1
+          "entity_type": "spider",
+          "spawn_tick": 500,
+          "spawn_amount": {
+            "count": 1
           }
         }
       ],
-      "duration":1000
-    },
-    {
-      "spawns":[
-        {
-          "entity_type":"skeleton",
-          "spawn_tick":10,
-          "spawn_amount":{
-            "count":5
-          },
-          "placement":{
-            "center":{
-              "radius":5,
-              "ground":true
-            }
-          }
-        },
-        {
-          "entity_type":"spider",
-          "spawn_tick":500,
-          "spawn_amount":{
-            "count":1
-          }
-        }
-      ],
-      "duration":1000
+      "duration": 1000
     }
   ],
-  "rewards":{
-    "advancements":{
-      "experience":10000
+  "rewards": {
+    "advancements": {
+      "experience": 10000
     }
   }
 }

@@ -66,12 +66,10 @@ public class RaidComponent implements IRaidComponent {
 		/* authors */
 		{
 			final JsonArray array = GsonHelper.getAsJsonArray(json, StringUtil.AUTHORS, new JsonArray());
-			if(array != null) {
-				for(int i = 0; i < array.size(); ++ i) {
-					final JsonElement e = array.get(i);
-					if(e.isJsonPrimitive()) {
-						this.authors.add(e.getAsString());
-					}
+			for(int i = 0; i < array.size(); ++ i) {
+				final JsonElement e = array.get(i);
+				if(e.isJsonPrimitive()) {
+					this.authors.add(e.getAsString());
 				}
 			}
 		}
@@ -79,12 +77,10 @@ public class RaidComponent implements IRaidComponent {
 		/* tags */
 		{
 			final JsonArray array = GsonHelper.getAsJsonArray(json, StringUtil.TAGS, new JsonArray());
-			if(array != null) {
-				for(int i = 0; i < array.size(); ++ i) {
-					final JsonElement e = array.get(i);
-					if(e.isJsonPrimitive()) {
-						this.tags.add(e.getAsString());
-					}
+			for(int i = 0; i < array.size(); ++ i) {
+				final JsonElement e = array.get(i);
+				if(e.isJsonPrimitive()) {
+					this.tags.add(e.getAsString());
 				}
 			}
 		}
@@ -114,22 +110,20 @@ public class RaidComponent implements IRaidComponent {
 
 		/* waves */
 		JsonArray jsonWaves = GsonHelper.getAsJsonArray(json, StringUtil.WAVES, new JsonArray());
-		if(jsonWaves != null) {
-			for(int i = 0; i < jsonWaves.size(); ++ i) {
-			    JsonObject obj = jsonWaves.get(i).getAsJsonObject();
-			    if(obj != null) {
-			    	String type = GsonHelper.getAsString(obj, StringUtil.TYPE, "");
-		            IWaveComponent wave = RaidManager.getWaveType(type);
-		            if(! wave.readJson(obj)) {
-		            	return false;
-		            }
-		            //by tick order.
-		            wave.getSpawns().sort(new Sorter());
-				    this.waves.add(wave);
-			    }
+		for(int i = 0; i < jsonWaves.size(); ++ i) {
+			JsonObject obj = jsonWaves.get(i).getAsJsonObject();
+			if(obj != null) {
+				String type = GsonHelper.getAsString(obj, StringUtil.TYPE, "");
+				IWaveComponent wave = RaidManager.getWaveType(type);
+				if(!wave.readJson(obj)) {
+					return false;
+				}
+				//by tick order.
+				wave.getSpawns().sort(new Sorter());
+				this.waves.add(wave);
 			}
 		}
-	    if(this.waves.isEmpty()) {// mandatory !
+		if(this.waves.isEmpty()) {// mandatory !
 		    throw new JsonSyntaxException("Wave list cannot be empty");
 	    }
 

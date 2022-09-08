@@ -34,10 +34,10 @@ import org.apache.logging.log4j.Logger;
 @Mod("craid")
 public class CRaid
 {
+	public static final String MOD_ID = "craid";
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
-    public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final String MOD_ID = "craid";
 
     public CRaid() {
     	{

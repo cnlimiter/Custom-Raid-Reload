@@ -1,6 +1,7 @@
 package com.hungteen.craid.common.command;
 
 import com.hungteen.craid.CRaidUtil;
+import com.hungteen.craid.common.raid.Raid;
 import com.hungteen.craid.common.raid.RaidManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -62,9 +63,7 @@ public class CRaidCommand {
 	}
 
 	private static int removeAll(CommandSourceStack  source) {
-		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
-			raid.remove();
-		});
+		RaidManager.getRaids(source.getLevel()).forEach(Raid::remove);
 		return 1;
 	}
 

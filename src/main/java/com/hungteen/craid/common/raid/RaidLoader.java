@@ -17,7 +17,7 @@ public class RaidLoader extends SimpleJsonResourceReloadListener {
 
 	public static final String NAME = "raid";
 	private static final Map<ResourceLocation, IRaidComponent> RAID_MAP = Maps.newHashMap();
-	private static final Gson GSON = (new GsonBuilder()).create();
+	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 
 	public RaidLoader() {
 		super(GSON, NAME + "s");
@@ -33,9 +33,9 @@ public class RaidLoader extends SimpleJsonResourceReloadListener {
 		map.forEach((res, jsonElement) -> {
 			try {
 	            JsonObject jsonObject = GsonHelper.convertToJsonObject(jsonElement, NAME);
-	            String type = GsonHelper.getAsString(jsonObject, StringUtil.TYPE, "");
+	            String type = GsonHelper.getAsString(jsonObject, StringUtil.TYPE, "test");
 	            IRaidComponent raid = RaidManager.getRaidType(type);
-	            if(! raid.readJson(jsonObject)) {
+	            if(!raid.readJson(jsonObject)) {
 	            	CRaid.LOGGER.debug("Skipping loading custom raid {} as it's conditions were not met", res);
 	            	return;
 	            }

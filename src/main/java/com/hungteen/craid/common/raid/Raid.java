@@ -191,13 +191,7 @@ public class Raid {
 		}
 
 		/* update raiders list */
-		Iterator<Entity> it = this.raiders.iterator();
-		while(it.hasNext()) {
-			Entity entity = it.next();
-			if(! entity.isAlive()) {
-				it.remove();
-			}
-		}
+		this.raiders.removeIf(entity -> !entity.isAlive());
 	}
 
 	protected void spawnEntities(ISpawnComponent spawn) {
@@ -225,7 +219,7 @@ public class Raid {
 			return null;
 		}
 		final CompoundTag compound = spawn.getNBT().copy();
-		compound.putString("id", spawn.getSpawnType().getRegistryName().toString());
+		compound.putString("id", Objects.requireNonNull(spawn.getSpawnType().getRegistryName()).toString());
 		Entity entity = EntityType.loadEntityRecursive(compound, world, e -> {
 			e.moveTo(pos, e.getXRot(), e.getYRot());
 			return e;
@@ -437,7 +431,7 @@ public class Raid {
 	 * get tracked players by raid bar.
 	 */
 	public List<ServerPlayer> getPlayers(){
-		return this.raidBar.getPlayers().stream().collect(Collectors.toList());
+		return new ArrayList<>(this.raidBar.getPlayers());
 	}
 
 	public boolean hasTag(String tag) {
