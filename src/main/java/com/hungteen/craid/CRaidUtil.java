@@ -8,19 +8,17 @@ import com.hungteen.craid.common.impl.placement.CenterPlacement;
 import com.hungteen.craid.common.network.PacketHandler;
 import com.hungteen.craid.common.network.PlaySoundPacket;
 import com.hungteen.craid.common.raid.RaidManager;
-import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Map.Entry;
-import java.util.Random;
 
 public class CRaidUtil {
 
@@ -54,25 +52,23 @@ public class CRaidUtil {
 	/**
 	 * gen random from min to max.
 	 */
-	public static int getRandomMinMax(Random rand, int min, int max) {
+	public static int getRandomMinMax(RandomSource rand, int min, int max) {
 		return rand.nextInt(max - min + 1) + min;
 	}
 
 
-	public static int getRandomInRange(Random rand, int range) {
+	public static int getRandomInRange(RandomSource rand, int range) {
 		return rand.nextInt(range << 1 | 1) - range;
 	}
 
 	public static void playClientSound(Player player, SoundEvent ev) {
 		if(ev != null) {
-			PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> {
-			    return (ServerPlayer) player;
-		    }), new PlaySoundPacket(ev.getRegistryName().toString()));
+			PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), new PlaySoundPacket(ev.getLocation().toString()));
 		}
 	}
 
 	public static void sendMsgTo(Player player, Component text) {
-		player.sendMessage(text, Util.NIL_UUID);
+		player.sendSystemMessage(text);
 	}
 
 	public static boolean isRaidEnable() {

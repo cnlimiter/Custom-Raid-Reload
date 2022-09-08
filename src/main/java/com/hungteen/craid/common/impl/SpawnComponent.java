@@ -34,7 +34,7 @@ public class SpawnComponent implements ISpawnComponent {
 	public boolean readJson(JsonObject json) {
 
 		/* entity type */
-		this.entityType = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(GsonHelper.getAsString(json, StringUtil.ENTITY_TYPE, "")));
+		this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(GsonHelper.getAsString(json, StringUtil.ENTITY_TYPE, "")));
 		if(this.entityType == null) {
 			throw new JsonSyntaxException("entity type cannot be empty or wrong format");
 		}

@@ -1,6 +1,6 @@
 modLoader="javafml"
 license="GNU LESSER GENERAL PUBLIC LICENSE"
-loaderVersion="[40,)"
+loaderVersion="[43,)"
 
 [[mods]]
 modId="craid"
@@ -15,6 +15,6 @@ description="help players make custom raids easily"
 [[dependencies.craid]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="[43,)"
     ordering="NONE"
     side="BOTH"

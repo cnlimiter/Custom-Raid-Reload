@@ -1,7 +1,6 @@
 package com.hungteen.craid.common.event;
 
 import com.hungteen.craid.CRaid;
-
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = CRaid.MOD_ID)
@@ -16,5 +15,5 @@ public class LivingEvents {
 //			ev.setResult(Result.DENY);
 //		}
 //	}
-	
+
 }

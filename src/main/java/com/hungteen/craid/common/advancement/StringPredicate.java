@@ -1,10 +1,9 @@
 package com.hungteen.craid.common.advancement;
 
-import javax.annotation.Nullable;
-
 import com.google.gson.JsonElement;
-
 import net.minecraft.server.level.ServerPlayer;
+
+import javax.annotation.Nullable;
 
 public class StringPredicate {
 

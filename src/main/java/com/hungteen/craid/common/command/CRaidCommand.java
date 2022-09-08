@@ -12,8 +12,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -45,10 +44,10 @@ public class CRaidCommand {
 			if(! RaidManager.hasRaidNearby(source.getLevel(), pos)) {
 				RaidManager.createRaid(source.getLevel(), res, pos);
 			} else {
-				source.sendFailure(new TranslatableComponent("info.craid.has_raid"));
+				source.sendFailure(Component.translatable("info.craid.has_raid"));
 			}
 		} else {
-			source.sendFailure(new TranslatableComponent("info.craid.search_fail"));
+			source.sendFailure(Component.translatable("info.craid.search_fail"));
 		}
 		return 1;
 	}
@@ -69,7 +68,7 @@ public class CRaidCommand {
 
 	private static int showAllRaid(CommandSourceStack source, Collection<? extends ServerPlayer> targets) {
 		RaidManager.getRaids(source.getLevel()).forEach(raid -> {
-			targets.forEach(p -> CRaidUtil.sendMsgTo(p, new TextComponent(raid.getCenter().toString())));
+			targets.forEach(p -> CRaidUtil.sendMsgTo(p, Component.literal(raid.getCenter().toString())));
 		});
 		return 1;
 	}

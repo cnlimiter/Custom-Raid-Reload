@@ -15,7 +15,6 @@ import net.minecraft.nbt.IntTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -28,15 +27,15 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Raid {
 
-	private static final Component RAID_NAME_COMPONENT = new TranslatableComponent("event.minecraft.raid");
-	private static final Component RAID_WARN = new TranslatableComponent("raid.craid.warn").withStyle(ChatFormatting.RED);
+	private static final Component RAID_NAME_COMPONENT = Component.translatable("event.minecraft.raid");
+	private static final Component RAID_WARN = Component.translatable("raid.craid.warn").withStyle(ChatFormatting.RED);
 	private final ServerBossEvent raidBar = new ServerBossEvent(RAID_NAME_COMPONENT, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.NOTCHED_10);
 	private final int id;//unique specify id.
 	public final ServerLevel world;
@@ -219,7 +218,8 @@ public class Raid {
 			return null;
 		}
 		final CompoundTag compound = spawn.getNBT().copy();
-		compound.putString("id", Objects.requireNonNull(spawn.getSpawnType().getRegistryName()).toString());
+
+		compound.putString("id", Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(spawn.getSpawnType())).toString());
 		Entity entity = EntityType.loadEntityRecursive(compound, world, e -> {
 			e.moveTo(pos, e.getXRot(), e.getYRot());
 			return e;
@@ -248,7 +248,7 @@ public class Raid {
 			this.raidBar.setName(this.raid.getRaidTitle());
 			this.raidBar.setProgress(this.tick * 1.0F / this.raid.getPrepareCD(this.currentWave));
 		} else if(this.isRunning()) {
-			this.raidBar.setName(this.raid.getRaidTitle().copy().append(" - ").append(new TranslatableComponent("event.minecraft.raid.raiders_remaining", this.raiders.size())));
+			this.raidBar.setName(this.raid.getRaidTitle().copy().append(" - ").append(Component.translatable("event.minecraft.raid.raiders_remaining", this.raiders.size())));
 			this.raidBar.setProgress(1 - this.tick * 1.0F / this.raid.getLastDuration(this.currentWave));
 		} else if(this.isVictory()) {
 			this.raidBar.setName(this.raid.getRaidTitle().copy().append(" - ").append(this.raid.getWinTitle()));
@@ -295,9 +295,7 @@ public class Raid {
 
 		/* add heroes */
 		this.raidBar.getPlayers().forEach(p -> {
-			if(! this.heroes.contains(p.getUUID())) {
-				this.heroes.add(p.getUUID());
-			}
+			this.heroes.add(p.getUUID());
 		});
 
 		if(this.raidBar.getPlayers().isEmpty()){
