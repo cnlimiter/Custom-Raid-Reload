@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "craid",
+  "version": "${version}",
+  "name": "Craid",
+  "description": "",
+  "authors": [
+    "cnlimiter"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/craid/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "cn.evolvefield.mods.craid.client.CraidClient"
+    ],
+    "main": [
+      "cn.evolvefield.mods.craid.CRaid"
+    ]
+  },
+  "mixins": [
+    "craid.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "1.19.2"
+  }
+}
