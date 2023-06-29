@@ -4,11 +4,10 @@ loaderVersion="[43,)"
 
 [[mods]]
 modId="craid"
-version="1.0"
-displayName="Custom Raid"
-authors="_HungTeen_, cnlimiter"
+version="${version}"
+displayName="CustomRaid"
+authors="cnlimiter, _HungTeen_"
 #logoFile="logo.png"
-displayURL="https://space.bilibili.com/362855464"
 credits="Nope"
 description="help players make custom raids easily"
 
