@@ -11,25 +11,25 @@ import java.util.function.Supplier;
 
 public class PlaySoundPacket {
 
-	private String type;
+	private ResourceLocation type;
 
-	public PlaySoundPacket(String type) {
+	public PlaySoundPacket(ResourceLocation type) {
 		this.type = type;
 	}
 
 	public PlaySoundPacket(FriendlyByteBuf buffer) {
-		this.type = buffer.readUtf();
+		this.type = buffer.readResourceLocation();
 	}
 
 	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeUtf(type);
+		buffer.writeResourceLocation(type);
 	}
 
 	public static class Handler {
 		@SuppressWarnings("resource")
 		public static void onMessage(PlaySoundPacket message, Supplier<NetworkEvent.Context> ctx) {
 		    ctx.get().enqueueWork(()->{
-		    	SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(message.type));
+		    	SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(message.type);
 		    	if(sound != null) {
 		    		Minecraft.getInstance().player.playSound(sound, 1F, 1F);
 		    	}

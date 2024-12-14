@@ -63,7 +63,7 @@ public class CRaidUtil {
 
 	public static void playClientSound(Player player, SoundEvent ev) {
 		if(ev != null) {
-			PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), new PlaySoundPacket(ev.getLocation().toString()));
+			PacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player), new PlaySoundPacket(ev.getLocation()));
 		}
 	}
 
