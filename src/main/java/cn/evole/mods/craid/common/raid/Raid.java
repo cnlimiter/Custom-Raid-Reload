@@ -148,6 +148,7 @@ public class Raid {
 //		System.out.println(this.tick + " " + this.stopTick + " " + this.status + " " + this.center);
 		if(this.isPreparing()) {
 			/* prepare state */
+			this.prepareState();
 			if(this.tick >= this.raid.getPrepareCD(this.currentWave)) {
 				this.waveStart();
 			}
@@ -157,7 +158,8 @@ public class Raid {
 					|| (this.raiders.isEmpty() && this.raid.isWaveFinish(this.currentWave, this.currentSpawn))) {
 				this.checkNextWave();
 			}
-			if(this.isLoss()) {//fail to start next wave.
+			if(this.isLoss()) {
+				//fail to start next wave.
 				this.onLoss();
 				return ;
 			}
@@ -285,6 +287,7 @@ public class Raid {
 		final Set<ServerPlayer> newPlayers = Sets.newHashSet(this.world.getPlayers(this.validPlayer()));
 
 		/* add new join players */
+		//进入袭击范围的人无法退出
 		newPlayers.forEach(p -> {
 			if(! oldPlayers.contains(p)) {
 				this.raidBar.addPlayer(p);
@@ -310,7 +313,7 @@ public class Raid {
 				if (!player.isAlive()) {
 					this.setStatus(Status.LOSS);//玩家死亡后将判定失败
 				} else if (!innerPlayer(player, CRaidUtil.getRaidRange())) {
-					CRaidUtil.sendMsgTo(player, RAID_WARN);
+					CRaidUtil.sendMsgTo(player, RAID_TELEPORT);
 					player.teleportTo(this.center.getX(), this.center.getY(), this.center.getZ());
 					//当玩家远离袭击区域后，会强行将玩家拉到袭击中心
 				}
@@ -331,14 +334,19 @@ public class Raid {
 			this.stopTick = 0;
 		}
 	}
-
+	/**
+	 * run when prepare time is not finished.
+	 */
+	protected void prepareState() {
+		this.getPlayers().forEach(p -> CRaidUtil.playClientSound(p, this.raid.getPrepareSound()));
+	}
 	/**
 	 * run when prepare time is finished.
 	 */
 	protected void waveStart() {
 		this.tick = 0;
 		this.status = Status.RUNNING;
-		this.getPlayers().forEach(p -> CRaidUtil.playClientSound(p, this.raid.getPrepareSound()));
+		this.getPlayers().forEach(p -> CRaidUtil.playClientSound(p, this.raid.getStartWaveSound()));
 	}
 
 	/**

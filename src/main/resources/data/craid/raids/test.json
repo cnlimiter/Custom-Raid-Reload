@@ -12,10 +12,10 @@
   "loss_tick": 100,
   "bar_color": "green",
   "sounds": {
-    "pre_sound": "entity.creeper.hurt",
-    "wave_sound": "entity.creeper.hurt",
-    "win_sound": "entity.creeper.hurt",
-    "loss_sound": "entity.creeper.hurt"
+    "pre_sound": "minecraft:entity.creeper.hurt",
+    "wave_sound": "minecraft:entity.creeper.hurt",
+    "win_sound": "minecraft:entity.creeper.hurt",
+    "loss_sound": "minecraft:entity.creeper.hurt"
   },
   "placement": {
     "outer": {

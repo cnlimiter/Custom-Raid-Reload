@@ -26,7 +26,6 @@ public class PlaySoundPacket {
 	}
 
 	public static class Handler {
-		@SuppressWarnings("resource")
 		public static void onMessage(PlaySoundPacket message, Supplier<NetworkEvent.Context> ctx) {
 		    ctx.get().enqueueWork(()->{
 		    	SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(message.type);
