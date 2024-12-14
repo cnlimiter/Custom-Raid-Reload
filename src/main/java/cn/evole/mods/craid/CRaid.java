@@ -13,6 +13,7 @@ import cn.evole.mods.craid.common.impl.placement.CenterPlacement;
 import cn.evole.mods.craid.common.impl.placement.OffsetPlacement;
 import cn.evole.mods.craid.common.impl.placement.OuterPlacement;
 import cn.evole.mods.craid.common.impl.reward.AdvancementRewardComponent;
+import cn.evole.mods.craid.common.impl.reward.CommandRewardComponent;
 import cn.evole.mods.craid.common.network.PacketHandler;
 import cn.evole.mods.craid.common.raid.RaidLoader;
 import com.mojang.brigadier.CommandDispatcher;
@@ -79,7 +80,8 @@ public class CRaid
     	api.registerSpawnPlacement(OffsetPlacement.NAME, OffsetPlacement.class);
 
     	api.registerReward(AdvancementRewardComponent.NAME, AdvancementRewardComponent.class);
-    }
+		api.registerReward(CommandRewardComponent.NAME, CommandRewardComponent.class);
+	}
 
     public static void registerCommonds(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();

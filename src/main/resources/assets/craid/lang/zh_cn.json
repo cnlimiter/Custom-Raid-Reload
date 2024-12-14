@@ -4,7 +4,8 @@
     "raid.craid.title":"袭击",
     "raid.craid.win_title":"胜利",
     "raid.craid.loss_title":"失败",
-    "raid.craid.warn":"请返回袭击地，否则袭击会马上消失",
+    "raid.craid.warn": "请返回袭击地，否则袭击会马上消失",
+    "raid.craid.teleport": "距离袭击地太远，已经传送回袭击中心！",
     "advancement.craid.root":"自定义袭击",
     "advancement.craid.root.desc":"击败测试袭击"
 }

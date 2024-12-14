@@ -5,6 +5,7 @@
   "raid.craid.win_title":"Victory",
   "raid.craid.loss_title":"Loss",
   "raid.craid.warn":"Please go back to raid, or it will disappear soon !",
+  "raid.craid.teleport": "It's too far away from the raid, teleported back to raid center!",
   "advancement.craid.root":"Custom Raid",
   "advancement.craid.root.desc":"Defeat Test Raid"
 }

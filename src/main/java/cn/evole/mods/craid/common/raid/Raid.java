@@ -36,6 +36,7 @@ public class Raid {
 
 	private static final Component RAID_NAME_COMPONENT = Component.translatable("event.minecraft.raid");
 	private static final Component RAID_WARN = Component.translatable("raid.craid.warn").withStyle(ChatFormatting.RED);
+	private static final Component RAID_TELEPORT = Component.translatable("raid.craid.teleport").withStyle(ChatFormatting.YELLOW);
 	private final ServerBossEvent raidBar = new ServerBossEvent(RAID_NAME_COMPONENT, BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.NOTCHED_10);
 	private final int id;//unique specify id.
 	public final ServerLevel world;
@@ -222,6 +223,7 @@ public class Raid {
 		compound.putString("id", Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(spawn.getSpawnType())).toString());
 		Entity entity = EntityType.loadEntityRecursive(compound, world, e -> {
 			e.moveTo(pos, e.getXRot(), e.getYRot());
+			e.setGlowingTag(spawn.glowing());
 			return e;
 		});
 		if(entity == null) {
@@ -265,10 +267,14 @@ public class Raid {
 	private Predicate<ServerPlayer> validPlayer() {
 		return (player) -> {
 			final int range = CRaidUtil.getRaidRange();
-			return player.isAlive() && Math.abs(player.getX() - this.center.getX()) < range
-					&& Math.abs(player.getY() - this.center.getY()) < range
-					&& Math.abs(player.getZ() - this.center.getZ()) < range;
+			return player.isAlive() && innerPlayer(player, range);
 		};
+	}
+
+	private boolean innerPlayer(Player player, int range) {
+		return Math.abs(player.getX() - this.center.getX()) < range
+				&& Math.abs(player.getY() - this.center.getY()) < range
+				&& Math.abs(player.getZ() - this.center.getZ()) < range;
 	}
 
 	/**
@@ -286,16 +292,29 @@ public class Raid {
 		});
 
 		/* remove offline players */
-		oldPlayers.forEach(p -> {
-			if(! newPlayers.contains(p)) {
-
-				this.raidBar.removePlayer(p);
-			}
-		});
+//		oldPlayers.forEach(p -> {
+//			if(! newPlayers.contains(p)) {
+//
+//				this.raidBar.removePlayer(p);
+//			}
+//		});
 
 		/* add heroes */
 		this.raidBar.getPlayers().forEach(p -> {
 			this.heroes.add(p.getUUID());
+		});
+
+		this.heroes.forEach(uuid -> {
+			Player player = this.world.getPlayerByUUID(uuid);
+			if(player != null) {
+				if (!player.isAlive()) {
+					this.setStatus(Status.LOSS);//玩家死亡后将判定失败
+				} else if (!innerPlayer(player, CRaidUtil.getRaidRange())) {
+					CRaidUtil.sendMsgTo(player, RAID_WARN);
+					player.teleportTo(this.center.getX(), this.center.getY(), this.center.getZ());
+					//当玩家远离袭击区域后，会强行将玩家拉到袭击中心
+				}
+			}
 		});
 
 		if(this.raidBar.getPlayers().isEmpty()){
@@ -352,6 +371,7 @@ public class Raid {
 	protected void onLoss() {
 		this.tick = 0;
 		this.getPlayers().forEach(p -> CRaidUtil.playClientSound(p, this.raid.getLossSound()));
+		onPost();
 		MinecraftForge.EVENT_BUS.post(new RaidEvent.RaidLossEvent(this));
 	}
 
@@ -368,8 +388,12 @@ public class Raid {
 			this.getPlayers().forEach(p -> {
 				this.raid.getRewards().forEach(r -> r.reward(p));
 			});
-			this.raid.getRewards().forEach(r -> r.rewardGlobally(world));
+			onPost();
 		}
+	}
+
+	protected void onPost() {
+		this.raid.getRewards().forEach(r -> r.rewardGlobally(world));
 	}
 
 	public void remove() {

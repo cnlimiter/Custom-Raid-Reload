@@ -38,5 +38,6 @@ public class StringUtil {
 	public static final String ENTITY_NBT = "nbt";
 	public static final String SPAWN_AMOUNT = "spawn_amount";
 	public static final String SPAWN_TICK = "spawn_tick";
-	
+	public static final String GLOWING = "glowing";
+
 }

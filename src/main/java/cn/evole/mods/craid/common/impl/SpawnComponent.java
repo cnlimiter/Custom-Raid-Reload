@@ -29,6 +29,7 @@ public class SpawnComponent implements ISpawnComponent {
 	private CompoundTag nbt = new CompoundTag();
 	private IPlacementComponent placement;
 	private int spawnTick;
+	private boolean glowing;
 
 	@Override
 	public boolean readJson(JsonObject json) {
@@ -62,6 +63,9 @@ public class SpawnComponent implements ISpawnComponent {
 		/* spawn tick */
 		this.spawnTick = GsonHelper.getAsInt(json, StringUtil.SPAWN_TICK, 0);
 
+		/* glowing */
+		this.glowing = GsonHelper.getAsBoolean(json, StringUtil.GLOWING, false);
+
 		/* nbt */
 		if(json.has(StringUtil.ENTITY_NBT)) {
 			try {
@@ -82,6 +86,11 @@ public class SpawnComponent implements ISpawnComponent {
 	@Override
 	public int getSpawnAmount() {
 		return this.spawnAmount.getSpawnAmount();
+	}
+
+	@Override
+	public boolean glowing() {
+		return this.glowing;
 	}
 
 	@Override
